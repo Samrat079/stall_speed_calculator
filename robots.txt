@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samrat079.github.io/stall_speed_calculator/sitemap.xml
