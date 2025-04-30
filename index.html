@@ -66,14 +66,14 @@
       -moz-appearance: textfield; /* Firefox */
     }
 
-    /* Hide number input arrows in Chrome, Safari, Edge, Opera */
+    /* Hide num scroll in Chrome*/
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
 
-    /* Hide number input arrows in Firefox */
+    /* Hide num scroll in Firefox */
     input[type=number] {
       -moz-appearance: textfield;
     }
@@ -139,9 +139,9 @@
     <h1>Stall Speed Calculator</h1>
     
     <div class="input-group">
-      <label for="input_1">Wing Loading</label>
+      <label for="int_wingload">Wing Loading</label>
       <div class="input-with-unit">
-        <input type="number" id="input_1" placeholder="Enter Wing Loading">
+        <input type="number" id="int_wingload" placeholder="Enter Wing Loading">
         <select id="unit_wing">
           <option value="kg_m2">kg/m²</option>
           <option value="lb_ft2">lb/ft²</option>
@@ -150,19 +150,19 @@
     </div>
     
     <div class="input-group">
-      <label for="input_2">Altitude</label>
+      <label for="int_alt">Altitude</label>
       <div class="input-with-unit">
-        <input type="number" id="input_2" placeholder="Enter Altitude">
+        <input type="number" id="int_alt" placeholder="Enter Altitude">
         <select id="unit_altitude">
-          <option value="meters">m</option>
           <option value="feet">ft</option>
+          <option value="meters">m</option>
         </select>
       </div>
     </div>
     
     <div class="input-group">
-      <label for="input_3">Lift Coefficient (CLMax)</label>
-      <input type="number" id="input_3" placeholder="Enter Lift Coefficient">
+      <label for="int_clmax">Lift Coefficient (CLMax)</label>
+      <input type="number" id="int_clmax" placeholder="Enter Lift Coefficient">
     </div>
     
     <div class="input-group">
@@ -174,90 +174,59 @@
   </div>
 
 <script>
-  const input1 = document.getElementById('input_1');
-  const input2 = document.getElementById('input_2');
-  const input3 = document.getElementById('input_3');
-  const resultDisplay = document.getElementById('result');
-  const unitWing = document.getElementById('unit_wing');
-  const unitAltitude = document.getElementById('unit_altitude');
-
   // Conversion constants
-  const METERS_PER_SECOND_TO_KNOTS = 1.94384; // 1 m/s = 1.94384 knots
+  const LB_FT2_TO_KG_M2 = 4.88243;
+  const METER_TO_FEET = 3.28084;
 
-  [input1, input2, input3, unitWing, unitAltitude].forEach(input => {
-    input.addEventListener('input', calculate);
-    input.addEventListener('change', calculate);
-  });
+  function calculateStallSpeed() {
+    // Read inputs
+    let wingLoading = parseFloat(document.getElementById("int_wingload").value);
+    let altitude = parseFloat(document.getElementById("int_alt").value);
+    let clMax = parseFloat(document.getElementById("int_clmax").value);
 
-  function calculate() {
-    const wingLoadingValue = input1.value.trim();
-    const altitudeValue = input2.value.trim();
-    const liftCoefficientValue = input3.value.trim();
-    
-    // Check if all fields have been filled
-    const allFieldsFilled = wingLoadingValue !== '' && altitudeValue !== '' && liftCoefficientValue !== '';
-    
-    // If not all fields are filled, just show the default value
-    if (!allFieldsFilled) {
-      resultDisplay.innerHTML = '0 <span class="unit">kt</span>';
-      resultDisplay.classList.remove('error');
+    const wingUnit = document.getElementById("unit_wing").value;
+    const altitudeUnit = document.getElementById("unit_altitude").value;
+
+    // Validation
+    if (isNaN(wingLoading) || isNaN(altitude) || isNaN(clMax) || clMax <= 0) {
+      document.getElementById("result").innerHTML = `<span class="error">Please enter valid values.</span>`;
       return;
     }
-    
-    // Convert to numbers for calculation
-    let wingLoading = parseFloat(wingLoadingValue);
-    let altitude = parseFloat(altitudeValue);
-    const liftCoefficient = parseFloat(liftCoefficientValue);
 
-    // Check if all values are valid numbers and positive
-    if (isNaN(wingLoading) || isNaN(altitude) || isNaN(liftCoefficient) || 
-        wingLoading <= 0 || altitude < 0 || liftCoefficient <= 0) {
-      resultDisplay.textContent = "Invalid input";
-      resultDisplay.classList.add('error');
-      return;
-    }
-    
-    // Convert wing loading if needed
-    if (unitWing.value === "lb_ft2") {
-      wingLoading = wingLoading * 4.88243; // lb/ft² to kg/m²
-    }
-    
-    // Convert altitude if needed
-    if (unitAltitude.value === "feet") {
-      altitude = altitude * 0.3048; // ft to meters
+    // conversion lbs > kg , m > ft
+    if (wingUnit === "lb_ft2") {
+      wingLoading *= LB_FT2_TO_KG_M2; // to kg/m²
     }
 
-    // Calculate air density at altitude
-    const rho0 = 1.225; // sea level air density (kg/m³)
-    
-    // Check if altitude is within valid range
-    if (altitude >= 44330) {
-      resultDisplay.textContent = "Invalid altitude";
-      resultDisplay.classList.add('error');
-      return;
+    if (altitudeUnit === "meters") {
+      altitude *= METER_TO_FEET; // to feet
     }
-    
-    const rho = rho0 * Math.pow(1 - (altitude / 44330), 4.255);
 
-    // Calculate stall speed in m/s
-    const stallSpeedMS = Math.sqrt((2 * wingLoading) / (rho * liftCoefficient));
-    
-    // Convert to knots
-    const stallSpeedKnots = stallSpeedMS * METERS_PER_SECOND_TO_KNOTS;
-    
-    // Display the result
-    resultDisplay.innerHTML = stallSpeedKnots.toFixed(1) + ' <span class="unit">kt</span>';
-    resultDisplay.classList.remove('error');
+    // Stall speed formula using kg/m², ft, and CLmax
+    const g = 9.80665;
+    const rho0 = 1.225;
+    const sigma = Math.pow(1 - 6.8756e-6 * altitude, 4.2561);
+    const rho = rho0 * sigma;
+
+    const stallSpeedKnots = 1.94384 * Math.sqrt((2 * wingLoading * g) / (rho * clMax));
+
+    document.getElementById("result").innerHTML = `${stallSpeedKnots.toFixed(2)} <span class="unit">kt</span>`;
   }
 
+  // listeners
+  document.getElementById("int_wingload").addEventListener("input", calculateStallSpeed);
+  document.getElementById("int_alt").addEventListener("input", calculateStallSpeed);
+  document.getElementById("int_clmax").addEventListener("input", calculateStallSpeed);
+  document.getElementById("unit_wing").addEventListener("change", calculateStallSpeed);
+  document.getElementById("unit_altitude").addEventListener("change", calculateStallSpeed);
+
   function clearInputs() {
-    input1.value = '';
-    input2.value = '';
-    input3.value = '';
-    unitWing.selectedIndex = 0;
-    unitAltitude.selectedIndex = 0;
-    resultDisplay.innerHTML = '0 <span class="unit">kt</span>';
-    resultDisplay.classList.remove('error');
+    document.getElementById("int_wingload").value = '';
+    document.getElementById("int_alt").value = '';
+    document.getElementById("int_clmax").value = '';
+    document.getElementById("unit_wing").selectedIndex = 0;
+    document.getElementById("unit_altitude").selectedIndex = 0;
+    document.getElementById("result").innerHTML = `0 <span class="unit">kt</span>`;
   }
 </script>
 
