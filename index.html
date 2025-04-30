@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-site-verification" content="CLPCPTVwwNabp1gXKoG8GLJUOcWDm7Dt-t0xgnAPGhM" />
   <meta name="description" contect="Web-based calculator for stall speed of an aerofoil. Enter wing loading, altitude, and Clmax to compute Vs using Vs = √(2W/ρSCₗ).">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="https://samrat079.github.io/stall_speed_calculator/favicon.svg" type="image/svg+xml">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
   
   <title>Stall Speed Calculator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       background-color: #212121;
       color: #f5f5f5;
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
     }
     
     .calculator {
@@ -26,8 +29,9 @@
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       padding: 2rem;
-      width: 100%;
-      max-width: 400px;
+      width: 350px;
+      float: right;
+      margin: 0 0 20px 30px;
     }
     
     h1 {
@@ -35,6 +39,9 @@
       text-align: center;
       margin-top: 0;
       margin-bottom: 1.5rem;
+      font-family: 'Orbitron', 'Rajdhani', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
     
     .input-group {
@@ -132,45 +139,172 @@
     .clear-btn:hover {
       background-color: #d32f2f;
     }
+
+  .info_txt {
+    color: #e0e0e0;
+    line-height: 1.6;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    background-color: #252525;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #3a3a3a;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+    margin-right: 15px;
+  }
+
+  .info_txt h1 {
+    color: #3498db;
+    font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+  }
+
+  .info_txt h2 {
+    color: #e74c3c;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .info_txt p {
+    margin-top: 8px;
+    font-size: 1em;
+  }
+
+  formula {
+    background-color: #2a2a2a;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    display: inline-block;
+    color: #3498db;
+    border-left: 3px solid #e74c3c;
+  }
+
+  .info_txt ul {
+    padding-left: 20px;
+  }
+
+  .info_txt li {
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .calculator {
+      float: none;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+    }
+    
+    .info_txt {
+      clear: both;
+    }
+  }
   </style>
 </head>
 <body>
-  <div class="calculator">
-    <h1>Stall Speed Calculator</h1>
-    
-    <div class="input-group">
-      <label for="int_wingload">Wing Loading</label>
-      <div class="input-with-unit">
-        <input type="number" id="int_wingload" placeholder="Enter Wing Loading">
-        <select id="unit_wing">
-          <option value="kg_m2">kg/m²</option>
-          <option value="lb_ft2">lb/ft²</option>
-        </select>
+  <div class="wrapper">
+    <div class="calculator">
+      <h1>Stall Speed Calculator</h1>
+      
+      <div class="input-group">
+        <label for="int_wingload">Wing Loading</label>
+        <div class="input-with-unit">
+          <input type="number" id="int_wingload" placeholder="Enter Wing Loading">
+          <select id="unit_wing">
+            <option value="kg_m2">kg/m²</option>
+            <option value="lb_ft2">lb/ft²</option>
+          </select>
+        </div>
       </div>
-    </div>
-    
-    <div class="input-group">
-      <label for="int_alt">Altitude</label>
-      <div class="input-with-unit">
-        <input type="number" id="int_alt" placeholder="Enter Altitude">
-        <select id="unit_altitude">
-          <option value="feet">ft</option>
-          <option value="meters">m</option>
-        </select>
+      
+      <div class="input-group">
+        <label for="int_alt">Altitude</label>
+        <div class="input-with-unit">
+          <input type="number" id="int_alt" placeholder="Enter Altitude">
+          <select id="unit_altitude">
+            <option value="feet">ft</option>
+            <option value="meters">m</option>
+          </select>
+        </div>
       </div>
+      
+      <div class="input-group">
+        <label for="int_clmax">Lift Coefficient (CLMax)</label>
+        <input type="number" id="int_clmax" placeholder="Enter Lift Coefficient">
+      </div>
+      
+      <div class="input-group">
+        <label for="result">Stall Speed (KIAS)</label>
+        <div id="result" class="result">0 <span class="unit">kt</span></div>
+      </div>
+      
+      <button class="clear-btn" onclick="clearInputs()">Clear All</button>
     </div>
+
+    <div class="info_txt">
+      <div class="header">
+        <img src="favicon.svg" alt="AeroCal Logo" class="logo">
+        <h1>AeroCal</h1>
+      </div>
     
-    <div class="input-group">
-      <label for="int_clmax">Lift Coefficient (CLMax)</label>
-      <input type="number" id="int_clmax" placeholder="Enter Lift Coefficient">
-    </div>
+    <h2><i class="fas fa-exclamation-triangle"></i> What's stall speed?</h2>
+    <p>Stall speed is the minimum steady flight speed at which an aircraft can maintain controlled flight. Below this speed, the wing cannot generate enough lift to counteract the aircraft's weight, resulting in a stall condition where the airflow separates from the wing's upper surface. This causes a sudden decrease in lift and increase in drag, potentially leading to loss of control.</p>
     
-    <div class="input-group">
-      <label for="result">Stall Speed (KIAS)</label>
-      <div id="result" class="result">0 <span class="unit">kt</span></div>
-    </div>
+    <h2><i class="fas fa-calculator"></i> How to calculate stall speed</h2>
+    <p>The stall speed (Vs) can be calculated using the following formula:</p>
+    <p><formula>Vs = √(2 × W / (ρ × S × CL<sub>max</sub>))</formula></p>
+    <p>Where:</p>
+    <ul>
+      <li>Vs = Stall speed (in knots or m/s)</li>
+      <li>W = Aircraft weight (in pounds or kg)</li>
+      <li>ρ (rho) = Air density (in slugs/ft³ or kg/m³)</li>
+      <li>S = Wing area (in ft² or m²)</li>
+      <li>CL<sub>max</sub> = Maximum coefficient of lift</li>
+    </ul>
     
-    <button class="clear-btn" onclick="clearInputs()">Clear All</button>
+    <h2><i class="fas fa-weight"></i> Wing loading</h2>
+    <p>Wing loading is the weight of an aircraft divided by the area of its wing. It's typically expressed in pounds per square foot (lb/ft²) or kilograms per square meter (kg/m²).</p>
+    <p><formula>Wing Loading = W / S</formula></p>
+    <p>Higher wing loading generally results in higher stall speeds, faster cruise speeds, and reduced gust sensitivity. Lower wing loading typically provides better low-speed handling, shorter takeoff and landing distances, but potentially more susceptibility to turbulence.</p>
+    
+    <h2><i class="fas fa-mountain"></i> Altitude</h2>
+    <p>As altitude increases, air density (ρ) decreases, which affects stall speed. Since stall speed is inversely proportional to the square root of air density, an aircraft will have a higher stall speed at higher altitudes compared to sea level (assuming all other factors remain constant).</p>
+    <p>The correction factor for altitude can be approximated using the air density ratio:</p>
+    <p><formula>Vs(altitude) = Vs(sea level) × √(ρ(sea level) / ρ(altitude))</formula></p>
+    
+    <h2><i class="fas fa-tachometer-alt"></i> CL<sub>max</sub></h2>
+    <p>CL<sub>max</sub> is the maximum coefficient of lift that an airfoil can generate before stalling. It depends on several factors:</p>
+    <ul>
+      <li>Airfoil design: Different airfoil shapes have different lift characteristics</li>
+      <li>Flap configuration: Extending flaps increases CL<sub>max</sub></li>
+      <li>Slat/slot configuration: Leading edge devices can increase CL<sub>max</sub></li>
+      <li>Surface condition: Contamination (ice, rain) can reduce CL<sub>max</sub></li>
+      <li>Reynolds number: Affects boundary layer behavior</li>
+    </ul>
+    <p>Typical CL<sub>max</sub> values:</p>
+    <ul>
+      <li>Clean wing: 1.2 - 1.6</li>
+      <li>With flaps: 1.8 - 3.0 (depending on type and deflection)</li>
+      <li>With full high-lift devices: up to 4.0</li>
+    </ul>
   </div>
 
 <script>
