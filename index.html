@@ -25,11 +25,12 @@
     }
     
     .calculator {
-      background-color: #333333;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      background-color: #252525;
+      border: 1px solid #3a3a3a;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       padding: 2rem;
-      width: 350px;
+      width: 32%;
       float: left;
       margin: 0 30px 20px 0;
     }
@@ -175,7 +176,7 @@
 
   .info_txt h2 {
     color: #e74c3c;
-    border-bottom: 2px solid #e74c3c;
+    border-bottom: 2px solid #f44336;
     padding-bottom: 5px;
     margin-top: 30px;
     font-family: 'Rajdhani', sans-serif;
@@ -294,7 +295,8 @@
     <p>While this formula is the most flexible and is usable in almost all situations values like the wing area of a plane are more difficult to find, also calculating the density on a certain altitude is another calculation that has to be done before substituting the value. Thus we have edited the above mentioned formula so that we can work with wing loading(WL) rather than weight and wing area, also altitude(Only in ft) can be used directly.</p>
     <p><formula>V<sub>S</sub> = √(2 × WL / (C<sub>Lmax</sub> × (P<sub>0</sub> × (1 - (0.0065 × h) / T<sub>0</sub>)^(g<sub>0</sub> × M / (R × 0.0065)))))</formula></p>
     <ul>
-       <li>WL = Wing Loading (in kg meter square)</li>
+	    <li>WL = Wing Loading (in kg meter square)</li>
+	    <li>Alt = Altitude (In feets)</li>
     </ul>
     
     <h2><i class="fas fa-weight"></i> Wing loading</h2>
@@ -304,24 +306,19 @@
     
     
     <h2><i class="fas fa-mountain"></i> Altitude</h2>
-    <p>As altitude increases, air density (ρ) decreases, which affects stall speed. Since stall speed is inversely proportional to the square root of air density, an aircraft will have a higher stall speed at higher altitudes compared to sea level (assuming all other factors remain constant).</p>
+    <p>As altitude increases, air density (ρ) decreases, which affects stall speed. Since stall speed is inversely proportional to the square root of air density, which means if the aircraft is flying twice as higher its stall speed will be 4 times more.</p>
     <p>The correction factor for altitude can be approximated using the air density ratio:</p>
     <p><formula>Vs(altitude) = Vs(sea level) × √(ρ(sea level) / ρ(altitude))</formula></p>
     
     <h2><i class="fas fa-tachometer-alt"></i> CL<sub>max</sub></h2>
-    <p>CL<sub>max</sub> is the maximum coefficient of lift that an airfoil can generate before stalling. It depends on several factors:</p>
+    <p>CL<sub>max</sub> is the maximum coefficient of lift that an airfoil can generate before stalling. Usually most modern aircrafts have some form of high lift devices like flaps or slats, these high lift devices help increase the lift cofficient of the wing at the cost of increased drag.
+    It depends on several factors:</p>
     <ul>
       <li>Airfoil design: Different airfoil shapes have different lift characteristics</li>
       <li>Flap configuration: Extending flaps increases CL<sub>max</sub></li>
       <li>Slat/slot configuration: Leading edge devices can increase CL<sub>max</sub></li>
       <li>Surface condition: Contamination (ice, rain) can reduce CL<sub>max</sub></li>
-      <li>Reynolds number: Affects boundary layer behavior</li>
-    </ul>
-    <p>Typical CL<sub>max</sub> values:</p>
-    <ul>
-      <li>Clean wing: 1.2 - 1.6</li>
-      <li>With flaps: 1.8 - 3.0 (depending on type and deflection)</li>
-      <li>With full high-lift devices: up to 4.0</li>
+      <li>Reynolds number: Affects boundary layer behavior</l>
     </ul>
   </div>
 
