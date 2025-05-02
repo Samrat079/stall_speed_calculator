@@ -30,8 +30,8 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       padding: 2rem;
       width: 350px;
-      float: right;
-      margin: 0 0 20px 30px;
+      float: left;
+      margin: 0 30px 20px 0;
     }
     
     h1 {
@@ -100,7 +100,7 @@
       color: #ffffff;
       font-size: 0.9rem;
       cursor: pointer;
-      text-align: center;
+      text-align: left;
     }
 
     .result {
@@ -206,15 +206,24 @@
   }
 
   @media (max-width: 768px) {
+    .wrapper{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 10px;
+    }
+
     .calculator {
-      float: none;
+      order: 0;
+      box-sizing: border-box;
       width: 100%;
-      max-width: 400px;
-      margin: 0 auto 30px auto;
+      max-width: 100%;
+      margin: 0 auto;
     }
     
     .info_txt {
-      clear: both;
+      order: 1;
+      width: 100%;
     }
   }
   </style>
@@ -266,7 +275,9 @@
       </div>
     
     <h2><i class="fas fa-exclamation-triangle"></i> What's stall speed?</h2>
-    <p>Stall speed is the minimum steady flight speed at which an aircraft can maintain controlled flight. Below this speed, the wing cannot generate enough lift to counteract the aircraft's weight, resulting in a stall condition where the airflow separates from the wing's upper surface. This causes a sudden decrease in lift and increase in drag, potentially leading to loss of control.</p>
+    <p>Stall speed is basically the slowest speed an aircraft can fly while still staying in control and level. If you drop below this speed, the wings can't produce enough lift to hold the plane up, which can cause a stall, meaning you lose control. There are a few things that affect stall speed, like the aircraft's weight—heavier planes need to fly faster to stay airborne. The load factor also matters; when you're pulling maneuvers, like turns, the stall speed goes up.</p>
+    
+    <p>Altitude is another big one—higher altitudes have thinner air, so you need to fly faster to keep the same lift. Also, how the aircraft is set up, like whether flaps or landing gear are deployed, can help lower stall speed because they provide more lift. Finally, the design of the wings, or the airfoil, impacts the stall behavior and the critical angle of attack. It's super important to keep your airspeed above stall speed, especially during takeoff or landing, to avoid a dangerous situation.</p>
     
     <h2><i class="fas fa-calculator"></i> How to calculate stall speed</h2>
     <p>The stall speed (Vs) can be calculated using the following formula:</p>
@@ -279,11 +290,17 @@
       <li>S = Wing area (in ft² or m²)</li>
       <li>CL<sub>max</sub> = Maximum coefficient of lift</li>
     </ul>
+    <p>While this formula is the most flexible and is usable in almost all situations values like the wing area of a plane are more difficult to find, also calculating the density on a certain altitude is another calculation that has to be done before substituting the value. Thus we have edited the above mentioned formula so that we can work with wing loading(WL) rather than weight and wing area, also altitude(Only in ft) can be used directly.</p>
+    <p><formula>V<sub>S</sub> = √(2 × WL / (C<sub>Lmax</sub> × (P<sub>0</sub> × (1 - (0.0065 × h) / T<sub>0</sub>)^(g<sub>0</sub> × M / (R × 0.0065)))))</formula></p>
+    <ul>
+       <li>WL = Wing Loading (in kg meter square)</li>
+    </ul>
     
     <h2><i class="fas fa-weight"></i> Wing loading</h2>
     <p>Wing loading is the weight of an aircraft divided by the area of its wing. It's typically expressed in pounds per square foot (lb/ft²) or kilograms per square meter (kg/m²).</p>
     <p><formula>Wing Loading = W / S</formula></p>
     <p>Higher wing loading generally results in higher stall speeds, faster cruise speeds, and reduced gust sensitivity. Lower wing loading typically provides better low-speed handling, shorter takeoff and landing distances, but potentially more susceptibility to turbulence.</p>
+    
     
     <h2><i class="fas fa-mountain"></i> Altitude</h2>
     <p>As altitude increases, air density (ρ) decreases, which affects stall speed. Since stall speed is inversely proportional to the square root of air density, an aircraft will have a higher stall speed at higher altitudes compared to sea level (assuming all other factors remain constant).</p>
