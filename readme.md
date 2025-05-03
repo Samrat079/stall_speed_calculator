@@ -14,7 +14,7 @@ Thus we have made a calculator which is able to performe calculations of simille
 
 ## 🌐 Live Demo
 
-[Visit here](samrat079.github.io/stall_speed_calculator/)
+[Visit here](https://samrat079.github.io/stall_speed_calculator/)
 
 ## ⚙️ How Does It Work?
 
